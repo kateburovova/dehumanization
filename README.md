@@ -7,3 +7,9 @@ Such analysis can provide a more complete view of the social environment while d
 
 ### Desired outcome
 Detection, quantification, and visualization of the evolution of moral disengagement in russian segment of social media towards Ukraine and Ukrainians for the chosen timeframe. Contribution to the research of the diagnostic tools for early detection of these pernicious processes.
+
+Different approaches were developed for moral disengagement analysis.
+The first and most evident approach is tracking the frequency evolution of words through time and varieties of language. 
+A more linguistically-grounded approach is to detect the lexical, syntactic, or lexico-syntactic change, signaling new meanings based on combinatorial profile evolution.
+Another approach is to follow semantic change through the evolution of the cluster of similar words.
+The more novel approaches for extracting psychosocial indicators of moral disengagement are transformer-based.
