@@ -135,11 +135,30 @@ async def load_channel(client, name, MSG_LIMIT, config):
         )
 
         try:
-            async for message in client.iter_messages(tg_entity, reply_to=m.id):
-                print(message.text)
+            async for reply in client.iter_messages(tg_entity, reply_to=m.id):
+                # print(reply.text)
+                reply_attrs = msg_handler(reply)
+
+                channel.append(
+                    {
+                        "id": reply.id,
+                        "date": reply.date,
+                        "from_id": reply.from_id,
+                        "to_id": reply_attrs["to_id"],
+                        "fwd_from": reply.fwd_from,
+                        "message": reply_attrs["message"],
+                        "type": reply_attrs["type"],
+                        "duration": reply_attrs["duration"],
+                    }
+                )
+
         except ValueError:
             errmsg = f"No message id found: {m.id}"
             print(errmsg)
+
+        except TypeError:
+            err = f"TypeError raised on message {m.id}"
+            print(err)
 
 
     channel_file_path = os.path.join(config["channel_data_folder"], f"{str(name)}.csv")
