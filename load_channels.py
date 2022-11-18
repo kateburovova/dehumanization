@@ -152,6 +152,10 @@ async def load_channel(client, name, MSG_LIMIT, config):
                     }
                 )
 
+        # some deleted messages cause this error, it's safe to ignore them
+        except telethon.errors.rpcerrorlist.MsgIdInvalidError:
+            pass
+
         except ValueError:
             errmsg = f"No message id found: {m.id}"
             print(errmsg)
