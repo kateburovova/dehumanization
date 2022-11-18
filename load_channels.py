@@ -15,7 +15,7 @@ def init_args():
         "--channel_msg_limit",
         type=int,
         help="constraint on the amount of messages per channel",
-        default=1000,
+        default=10,
     )
     parser.add_argument(
         "--config_path",
@@ -134,9 +134,15 @@ async def load_channel(client, name, MSG_LIMIT, config):
             }
         )
 
-    channel_file_path = os.path.join(config["channel_data_folder"], f"{str(name)}.csv")
+        try:
+            async for message in client.iter_messages(tg_entity, reply_to=m.id):
+                print(message.text)
+        except ValueError:
+            errmsg = f"No message id found: {m.id}"
+            print(errmsg)
 
-    print(channel_file_path)
+
+    channel_file_path = os.path.join(config["channel_data_folder"], f"{str(name)}.csv")
 
     df = pd.DataFrame(channel)
     df.to_csv(channel_file_path)
