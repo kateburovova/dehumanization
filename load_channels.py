@@ -15,7 +15,7 @@ def init_args():
         "--channel_msg_limit",
         type=int,
         help="constraint on the amount of messages per channel",
-        default=10,
+        default=100,
     )
     parser.add_argument(
         "--config_path",
@@ -135,7 +135,7 @@ async def load_channel(client, name, MSG_LIMIT, config):
         )
 
         try:
-            async for reply in client.iter_messages(tg_entity, reply_to=m.id):
+            async for reply in client.iter_messages(tg_entity, reply_to=m.id, limit=10):
                 # print(reply.text)
                 reply_attrs = msg_handler(reply)
 
