@@ -5,6 +5,8 @@ import json
 import telethon
 from utils.utils import init_config
 
+# https://tl.telethon.dev/constructors/message.html
+
 
 def init_args():
     parser = argparse.ArgumentParser(
@@ -15,7 +17,7 @@ def init_args():
         "--channel_msg_limit",
         type=int,
         help="constraint on the amount of messages per channel",
-        default=100,
+        default=10,
     )
     parser.add_argument(
         "--config_path",
@@ -125,7 +127,8 @@ async def load_channel(client, name, MSG_LIMIT, config):
             {
                 "id": m.id,
                 "date": m.date,
-                "from_id": m.from_id,
+                "views": m.views,
+                "reactions": m.reactions,
                 "to_id": msg_attrs["to_id"],
                 "fwd_from": m.fwd_from,
                 "message": msg_attrs["message"],
@@ -143,7 +146,8 @@ async def load_channel(client, name, MSG_LIMIT, config):
                     {
                         "id": reply.id,
                         "date": reply.date,
-                        "from_id": reply.from_id,
+                        "views": reply.views,
+                        "reactions": reply.reactions,
                         "to_id": reply_attrs["to_id"],
                         "fwd_from": reply.fwd_from,
                         "message": reply_attrs["message"],
