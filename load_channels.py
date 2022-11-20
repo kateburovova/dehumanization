@@ -3,9 +3,25 @@ import argparse
 import pandas as pd
 import json
 import telethon
+from telethon.tl.functions.channels import GetFullChannelRequest
+from telethon.tl.functions.users import GetFullUserRequest
+from telethon.tl.types import PeerChannel, MessageFwdHeader, PeerUser, PeerChat
+
 from utils.utils import init_config
 
 # https://tl.telethon.dev/constructors/message.html
+
+def extract_id(text):
+    text = str(text)
+    if text is None:
+        return 50039420
+    else:
+        pos = text.find('channel_id=')+len('channel_id=')
+        if pos>1:
+            result = text[pos:(pos+25)].split('),')[0]
+            return int(result)
+        else:
+            pass
 
 
 def init_args():
@@ -71,12 +87,14 @@ def msg_handler(msg):
         "type": "text",
         "duration": "",
         "to_id": "",
+        "fwd": msg.fwd_from
     }
 
     if hasattr(msg.to_id, "user_id"):
         msg_attributes["to_id"] = msg.to_id.user_id
     else:
         msg_attributes["to_id"] = msg.to_id
+
 
     if msg.sticker:
         for attribute in msg.sticker.attributes:
@@ -98,6 +116,7 @@ def msg_handler(msg):
 
     elif msg.photo:
         msg_attributes["type"] = "photo"
+
 
     return msg_attributes
 
@@ -133,13 +152,22 @@ async def load_channel(client, name, MSG_LIMIT, config):
                 "fwd_from": m.fwd_from,
                 "message": msg_attrs["message"],
                 "type": msg_attrs["type"],
-                "duration": msg_attrs["duration"],
+                "duration": msg_attrs["duration"]
             }
         )
 
+        if isinstance(m.fwd_from, MessageFwdHeader):
+            print(extract_id(m.fwd_from))
+            entity = await client.get_input_entity(PeerChannel(extract_id(m.fwd_from)))
+            # print(f"Id {extract_id((m.fwd_from))} of type {type(extract_id((m.fwd_from)))}")
+            fwd_result = await client(GetFullChannelRequest(entity))
+            fwd_title = fwd_result.chats[0].title
+            print(fwd_title)
+
+
         try:
             async for reply in client.iter_messages(tg_entity, reply_to=m.id, limit=10):
-                # print(reply.text)
+
                 reply_attrs = msg_handler(reply)
 
                 channel.append(
@@ -156,7 +184,7 @@ async def load_channel(client, name, MSG_LIMIT, config):
                     }
                 )
 
-        # some deleted messages cause this error, it's safe to ignore them
+        # deleted messages cause this error, it's safe to ignore them
         except telethon.errors.rpcerrorlist.MsgIdInvalidError:
             pass
 
