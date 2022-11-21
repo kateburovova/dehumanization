@@ -7,3 +7,4 @@ cryptg
 pillow
 pandas
 numpy
+fasttext
