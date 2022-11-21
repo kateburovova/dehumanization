@@ -3,6 +3,7 @@ import argparse
 import pandas as pd
 import json
 import telethon
+import asyncio
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import PeerChannel, MessageFwdHeader, PeerUser, PeerChat
@@ -10,18 +11,6 @@ from telethon.tl.types import PeerChannel, MessageFwdHeader, PeerUser, PeerChat
 from utils.utils import init_config
 
 # https://tl.telethon.dev/constructors/message.html
-
-def extract_id(text):
-    text = str(text)
-    if text is None:
-        return 50039420
-    else:
-        pos = text.find('channel_id=')+len('channel_id=')
-        if pos>1:
-            result = text[pos:(pos+25)].split('),')[0]
-            return int(result)
-        else:
-            pass
 
 
 def init_args():
@@ -49,6 +38,19 @@ def init_args():
     )
 
     return parser.parse_args()
+
+
+def extract_id(text):
+    text = str(text)
+    if text is None:
+        return 50039420
+    else:
+        pos = text.find('channel_id=')+len('channel_id=')
+        if pos>1:
+            result = text[pos:(pos+25)].split('),')[0]
+            return int(result)
+        else:
+            pass
 
 
 def load_channel_names(channels_list_path="/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels_list.json"):
@@ -142,27 +144,49 @@ async def load_channel(client, name, MSG_LIMIT, config):
 
         msg_attrs = msg_handler(m)
 
-        channel.append(
-            {
-                "id": m.id,
-                "date": m.date,
-                "views": m.views,
-                "reactions": m.reactions,
-                "to_id": msg_attrs["to_id"],
-                "fwd_from": m.fwd_from,
-                "message": msg_attrs["message"],
-                "type": msg_attrs["type"],
-                "duration": msg_attrs["duration"]
-            }
-        )
-
         if isinstance(m.fwd_from, MessageFwdHeader):
-            print(extract_id(m.fwd_from))
-            entity = await client.get_input_entity(PeerChannel(extract_id(m.fwd_from)))
-            # print(f"Id {extract_id((m.fwd_from))} of type {type(extract_id((m.fwd_from)))}")
-            fwd_result = await client(GetFullChannelRequest(entity))
-            fwd_title = fwd_result.chats[0].title
-            print(fwd_title)
+            try:
+                # print(extract_id(m.fwd_from))
+                entity = await client.get_input_entity(PeerChannel(extract_id(m.fwd_from)))
+                # print(f"Id {extract_id((m.fwd_from))} of type {type(extract_id((m.fwd_from)))}")
+                await asyncio.sleep(1)
+                fwd_result = await client(GetFullChannelRequest(entity))
+                # print(fwd_result.chats[0].username)
+                fwd_title = fwd_result.chats[0].title
+                # print(fwd_title)
+                channel.append(
+                    {
+                        "id": m.id,
+                        "date": m.date,
+                        "views": m.views,
+                        "reactions": m.reactions,
+                        "to_id": msg_attrs["to_id"],
+                        "fwd_from": m.fwd_from,
+                        "message": msg_attrs["message"],
+                        "type": msg_attrs["type"],
+                        "duration": msg_attrs["duration"],
+                        "frw_from_title": fwd_title,
+                        "frw_from_name": fwd_result.chats[0].username,
+                        "msg_entity": m.entities
+                    }
+                )
+            except telethon.errors.rpcerrorlist.ChannelPrivateError:
+                pass
+
+        else:
+            channel.append(
+                {
+                    "id": m.id,
+                    "date": m.date,
+                    "views": m.views,
+                    "reactions": m.reactions,
+                    "to_id": msg_attrs["to_id"],
+                    "fwd_from": m.fwd_from,
+                    "message": msg_attrs["message"],
+                    "type": msg_attrs["type"],
+                    "duration": msg_attrs["duration"]
+                }
+            )
 
 
         try:
