@@ -1,4 +1,4 @@
-## For the channel loader:
+## For the channel loader
 
 - [x] collect fwd from id, title
 - [ ] collect fwd from name handle
@@ -11,7 +11,7 @@
 
 - [ ] compiling the motivated list of seed channels
 - [ ] building the weighted directed graph (calculate betweenness?)
-- [ ] take a closer look at https://global.oup.com/academic/product/networks-9780198805090
+- [ ] take a closer look at http://networksciencebook.com/, https://global.oup.com/academic/product/networks-9780198805090
 - [ ] explore https://networkx.org/, https://github.com/swamiiyer/robustness (for betweenness)
 - [ ] collect 3? cascades of references, estimate the spread
 - [ ] distill the research data on main algos for maximizing the influence
