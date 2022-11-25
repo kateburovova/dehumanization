@@ -6,6 +6,7 @@
 - [x] try and get entities from the message itself to avoid reaching the limit (or use asincio await)
 - [x] do some refactoring (with handler function)
 - [x] set variable source for channels list 
+- [ ] set iter for comments in reverse in order to obtain first N comments, not latest
 
 ## For the network analysis
 
