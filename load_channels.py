@@ -6,11 +6,12 @@ import telethon
 import asyncio
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.tl.types import PeerChannel, MessageFwdHeader, PeerUser, PeerChat
+from telethon.tl.types import PeerChannel, MessageFwdHeader, PeerUser, PeerChat, MessageEntityMentionName
 
 from utils.utils import init_config
 
 # https://tl.telethon.dev/constructors/message.html
+# https://limits.tginfo.me/en +- 180 entities could be accessed
 
 
 def init_args():
@@ -35,6 +36,12 @@ def init_args():
         type=str,
         help="session name",
         default="tmp"
+    )
+    parser.add_argument(
+        "--channel_list_path",
+        type=str,
+        help="path to list of channels being loaded",
+        default="/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels_list.json"
     )
 
     return parser.parse_args()
@@ -89,7 +96,7 @@ def msg_handler(msg):
         "type": "text",
         "duration": "",
         "to_id": "",
-        "fwd": msg.fwd_from
+        "fwd": msg.fwd_from,
     }
 
     if hasattr(msg.to_id, "user_id"):
@@ -146,14 +153,10 @@ async def load_channel(client, name, MSG_LIMIT, config):
 
         if isinstance(m.fwd_from, MessageFwdHeader):
             try:
-                # print(extract_id(m.fwd_from))
                 entity = await client.get_input_entity(PeerChannel(extract_id(m.fwd_from)))
-                # print(f"Id {extract_id((m.fwd_from))} of type {type(extract_id((m.fwd_from)))}")
                 await asyncio.sleep(1)
-                fwd_result = await client(GetFullChannelRequest(entity))
-                # print(fwd_result.chats[0].username)
+                fwd_result = await client(GetFullChannelRequest(entity))  #, flood_sleep_threshold=15)
                 fwd_title = fwd_result.chats[0].title
-                # print(fwd_title)
                 channel.append(
                     {
                         "id": m.id,
@@ -174,6 +177,7 @@ async def load_channel(client, name, MSG_LIMIT, config):
                 pass
 
         else:
+
             channel.append(
                 {
                     "id": m.id,
@@ -230,17 +234,16 @@ if __name__ == "__main__":
 
     args = init_args()
 
-    CONFIG_PATH = args.config_path
     MSG_LIMIT = msg_limit_input_handler(args.channel_msg_limit)
     SESSION_NAME = args.session_name
 
+    channels_list_path = args.channel_list_path
+    CHANNELS_NAMES = load_channel_names(channels_list_path)
+
+    CONFIG_PATH = args.config_path
     config = init_config(CONFIG_PATH)
 
-    channels_list_path = "/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels_list.json"
-
     client = telethon.TelegramClient(SESSION_NAME, config["api_id"], config["api_hash"])
-
-    CHANNELS_NAMES = load_channel_names(channels_list_path)
 
     if not os.path.exists(config["channel_data_folder"]):
         os.mkdir(config["channel_data_folder"])
