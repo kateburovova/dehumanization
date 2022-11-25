@@ -155,7 +155,7 @@ async def load_channel(client, name, MSG_LIMIT, config):
             try:
                 entity = await client.get_input_entity(PeerChannel(extract_id(m.fwd_from)))
                 await asyncio.sleep(1)
-                fwd_result = await client(GetFullChannelRequest(entity))  #, flood_sleep_threshold=15)
+                fwd_result = await client(GetFullChannelRequest(entity), flood_sleep_threshold=15)  #, flood_sleep_threshold=15)
                 fwd_title = fwd_result.chats[0].title
                 channel.append(
                     {
