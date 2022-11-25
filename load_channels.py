@@ -76,7 +76,7 @@ def msg_limit_input_handler(msg_limit):
     Functions handles msg_limit depending on the input
 
     :param msg_limit: maximum amount of messages to be
-                      downloaded for each dialog
+                      downloaded for each channel
     :return: msg_limit
     """
     msg_limit = 100000000 if msg_limit == -1 else msg_limit
@@ -194,7 +194,7 @@ async def load_channel(client, name, MSG_LIMIT, config):
 
 
         try:
-            async for reply in client.iter_messages(tg_entity, reply_to=m.id, limit=10):
+            async for reply in client.iter_messages(tg_entity, reply_to=m.id, limit=10, reverse=True):
 
                 reply_attrs = msg_handler(reply)
 
