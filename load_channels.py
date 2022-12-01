@@ -1,5 +1,7 @@
 import os
 import argparse
+from datetime import datetime
+
 import pandas as pd
 import json
 import telethon
@@ -145,9 +147,14 @@ async def load_channel(client, name, MSG_LIMIT, config):
     :return: None
     """
     try:
+        """
+        https://docs.telethon.dev/en/stable/modules/client.html#telethon.client.messages.MessageMethods.get_messages
+        """
         tg_entity = await client.get_entity(name)
         print(MSG_LIMIT)
+        # messages = await client.get_messages(tg_entity, limit=MSG_LIMIT, offset_date=datetime(2018, 11, 30))
         messages = await client.get_messages(tg_entity, limit=MSG_LIMIT)
+
     except ValueError:
         errmsg = f"No NAME found: {name}"
         print(errmsg)
@@ -157,7 +164,7 @@ async def load_channel(client, name, MSG_LIMIT, config):
     for m in messages:
 
         msg_attrs = msg_handler(m)
-        print(m.message)
+        print(m.message, m.date)
 
         if isinstance(m.fwd_from, MessageFwdHeader):
             try:
@@ -182,6 +189,8 @@ async def load_channel(client, name, MSG_LIMIT, config):
                     }
                 )
             except telethon.errors.rpcerrorlist.ChannelPrivateError:
+                pass
+            except TypeError:  # https://github.com/LonamiWebs/Telethon/issues/3230
                 pass
 
         else:
