@@ -10,8 +10,10 @@ from telethon.tl.types import PeerChannel, MessageFwdHeader, PeerUser, PeerChat,
 
 from utils.utils import init_config
 
+
 # https://tl.telethon.dev/constructors/message.html
 # https://limits.tginfo.me/en +- 180 entities could be accessed
+# courtesy of https://github.com/SanGreel/telegram-dialogs-analysis-v2
 
 
 def init_args():
@@ -48,19 +50,30 @@ def init_args():
 
 
 def extract_id(text):
+    """
+    :param text: takes instance of MessageFwdHeader and gets an id of referred user
+    :return: user's id
+    """
+
     text = str(text)
     if text is None:
         return 50039420
     else:
-        pos = text.find('channel_id=')+len('channel_id=')
-        if pos>1:
-            result = text[pos:(pos+25)].split('),')[0]
-            return int(result)
-        else:
-            pass
+        try:
+            pos = text.find('channel_id=') + len('channel_id=')
+            if pos > 1:
+                result = text[pos:(pos + 25)].split('),')[0]
+                return int(result)
+            else:
+                pass
+        except ValueError:  # wrong formatting of fwd header closer to the beginning
+            return ""
+        except TypeError:
+            return ""
 
 
-def load_channel_names(channels_list_path="/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels_list.json"):
+def load_channel_names(
+        channels_list_path="/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels_list.json"):
     """
     :param channels_list_path: "/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels_list.json"
     :return: list with channel names
@@ -74,20 +87,16 @@ def load_channel_names(channels_list_path="/Users/katerynaburovova/PycharmProjec
 def msg_limit_input_handler(msg_limit):
     """
     Functions handles msg_limit depending on the input
-
     :param msg_limit: maximum amount of messages to be
                       downloaded for each channel
     :return: msg_limit
     """
-    msg_limit = 100000000 if msg_limit == -1 else msg_limit
+    msg_limit = None if msg_limit == -1 else msg_limit
     return msg_limit
 
 
 def msg_handler(msg):
     """
-    Handles attributes of a specific message, depending if
-    it is text, photo, voice, video or sticker
-
     :param msg: message
     :return: dict of attributes
     """
@@ -103,7 +112,6 @@ def msg_handler(msg):
         msg_attributes["to_id"] = msg.to_id.user_id
     else:
         msg_attributes["to_id"] = msg.to_id
-
 
     if msg.sticker:
         for attribute in msg.sticker.attributes:
@@ -126,9 +134,7 @@ def msg_handler(msg):
     elif msg.photo:
         msg_attributes["type"] = "photo"
 
-
     return msg_attributes
-
 
 
 async def load_channel(client, name, MSG_LIMIT, config):
@@ -140,6 +146,7 @@ async def load_channel(client, name, MSG_LIMIT, config):
     """
     try:
         tg_entity = await client.get_entity(name)
+        print(MSG_LIMIT)
         messages = await client.get_messages(tg_entity, limit=MSG_LIMIT)
     except ValueError:
         errmsg = f"No NAME found: {name}"
@@ -150,12 +157,13 @@ async def load_channel(client, name, MSG_LIMIT, config):
     for m in messages:
 
         msg_attrs = msg_handler(m)
+        print(m.message)
 
         if isinstance(m.fwd_from, MessageFwdHeader):
             try:
                 entity = await client.get_input_entity(PeerChannel(extract_id(m.fwd_from)))
                 await asyncio.sleep(1)
-                fwd_result = await client(GetFullChannelRequest(entity), flood_sleep_threshold=15)  #, flood_sleep_threshold=15)
+                fwd_result = await client(GetFullChannelRequest(entity))  # , flood_sleep_threshold=15)
                 fwd_title = fwd_result.chats[0].title
                 channel.append(
                     {
@@ -192,10 +200,8 @@ async def load_channel(client, name, MSG_LIMIT, config):
                 }
             )
 
-
         try:
             async for reply in client.iter_messages(tg_entity, reply_to=m.id, limit=10, reverse=True):
-
                 reply_attrs = msg_handler(reply)
 
                 channel.append(
@@ -224,11 +230,11 @@ async def load_channel(client, name, MSG_LIMIT, config):
             err = f"TypeError raised on message {m.id}"
             print(err)
 
-
     channel_file_path = os.path.join(config["channel_data_folder"], f"{str(name)}.csv")
 
     df = pd.DataFrame(channel)
     df.to_csv(channel_file_path)
+
 
 if __name__ == "__main__":
 
