@@ -27,7 +27,7 @@ def init_args():
         "--channel_msg_limit",
         type=int,
         help="constraint on the amount of messages per channel",
-        default=10,
+        default=-1,
     )
     parser.add_argument(
         "--config_path",
@@ -45,7 +45,7 @@ def init_args():
         "--channel_list_path",
         type=str,
         help="path to list of channels being loaded",
-        default="/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels_list.json"
+        default="/Users/katerynaburovova/PycharmProjects/dehumanization/data/current_channel_list"
     )
 
     return parser.parse_args()
@@ -170,7 +170,7 @@ async def load_channel(client, name, MSG_LIMIT, config):
             try:
                 entity = await client.get_input_entity(PeerChannel(extract_id(m.fwd_from)))
                 await asyncio.sleep(1)
-                fwd_result = await client(GetFullChannelRequest(entity))  # , flood_sleep_threshold=15)
+                fwd_result = await client(GetFullChannelRequest(entity))  # , flood_sleep_threshold=15) #todo
                 fwd_title = fwd_result.chats[0].title
                 channel.append(
                     {
