@@ -1,6 +1,29 @@
 from telethon import TelegramClient
 from telethon.sessions import StringSession
+from telethon.tl.functions.channels import GetFullChannelRequest
+from telethon.tl.types import PeerChannel, MessageFwdHeader
 import asyncio
+import pandas as pd
+import os
+import json
+
+
+def extract_id(text):
+    text = str(text)
+    if text is None:
+        return 50039420
+    else:
+        try:
+            pos = text.find('channel_id=') + len('channel_id=')
+            if pos > 1:
+                result = text[pos:(pos + 25)].split('),')[0]
+                return int(result)
+            else:
+                pass
+        except ValueError:
+            return ''
+        except TypeError:
+            return ''
 
 
 async def main(client):
