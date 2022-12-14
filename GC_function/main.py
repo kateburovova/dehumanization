@@ -171,7 +171,7 @@ async def load_channel(client, name, MSG_LIMIT=10):
             print(err)
 
 
-def get_my_data(request):
+def get_channel_data(request):
     api_id = 000000
     api_hash = '000000000000000000000000'
     session = '000000000000000000000000000000000000000000'
@@ -181,7 +181,9 @@ def get_my_data(request):
 
     client = TelegramClient(StringSession(session), api_id, api_hash, loop=loop)
 
+    channel_name = 'readovkanews'
+
     with client:
-        client.loop.run_until_complete(main(client))
+        client.loop.run_until_complete(load_channel(client, channel_name))
 
     return "OK"
