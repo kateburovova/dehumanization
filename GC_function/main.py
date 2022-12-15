@@ -4,7 +4,11 @@ from telethon.sessions import StringSession
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import PeerChannel, MessageFwdHeader
 import asyncio
+# import functions_framework
 import pandas as pd
+from datetime import datetime
+from google.cloud import storage
+import csv
 import os
 import json
 
@@ -79,7 +83,7 @@ def msg_handler(msg):
     return msg_attributes
 
 
-async def load_channel(client, name, MSG_LIMIT=10):
+async def load_channel(client, name, MSG_LIMIT=None):
 
     try:
         tg_entity = await client.get_entity(name)
@@ -170,8 +174,35 @@ async def load_channel(client, name, MSG_LIMIT=10):
             err = f'TypeError raised on message {m.id}'
             print(err)
 
+    df = pd.DataFrame(channel)
+    csv_str = df.to_csv()
 
+    def upload_blob(bucket_name, data, destination_blob_name):
+
+        storage_client = storage.Client()
+        bucket = storage_client.get_bucket(bucket_name)
+        blob = bucket.blob(destination_blob_name)
+        # Note the use of upload_from_string here. Please, provide
+        # the appropriate content type if you wish
+        blob.upload_from_string(data, content_type='text/csv')
+
+    now = datetime.now()
+    dt_string = now.strftime('%d_%m_%Y_%H_%M_%S')
+
+    upload_blob('tg_scr_bucket', csv_str, 'data-' + dt_string + '.csv')
+
+# @functions_framework.http
 def get_channel_data(request):
+
+    request_json = request.get_json()
+
+    if request.args and 'name' in request.args:
+        channel_name = request.args.get('name')
+    elif request_json and 'name' in request_json:
+        channel_name = request_json['name']
+    else:
+        channel_name = 'margaritasimonyan'
+
     api_id = 000000
     api_hash = '000000000000000000000000'
     session = '000000000000000000000000000000000000000000'
@@ -181,9 +212,9 @@ def get_channel_data(request):
 
     client = TelegramClient(StringSession(session), api_id, api_hash, loop=loop)
 
-    channel_name = 'readovkanews'
+    # channel_name = 'readovkanews'
 
     with client:
         client.loop.run_until_complete(load_channel(client, channel_name))
 
-    return "OK"
+    return 'OK'
