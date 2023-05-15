@@ -20,7 +20,7 @@ from utils.utils import init_config
 
 def init_args():
     parser = argparse.ArgumentParser(
-        description="Loads channels data"
+        description="Loads channels data_preselected_for_1st_annotation_proj"
     )
 
     parser.add_argument(
@@ -45,7 +45,7 @@ def init_args():
         "--channel_list_path",
         type=str,
         help="path to list of channels being loaded",
-        default="/Users/katerynaburovova/PycharmProjects/dehumanization/data/current_channel_list"
+        default="/Users/katerynaburovova/PycharmProjects/dehumanization/data_preselected_for_1st_annotation_proj/current_channel_list"
     )
 
     return parser.parse_args()
@@ -75,9 +75,9 @@ def extract_id(text):
 
 
 def load_channel_names(
-        channels_list_path="/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels_list.json"):
+        channels_list_path="/Users/katerynaburovova/PycharmProjects/dehumanization/data_preselected_for_1st_annotation_proj/channels_list.json"):
     """
-    :param channels_list_path: "/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels_list.json"
+    :param channels_list_path: "/Users/katerynaburovova/PycharmProjects/dehumanization/data_preselected_for_1st_annotation_proj/channels_list.json"
     :return: list with channel names
     """
 

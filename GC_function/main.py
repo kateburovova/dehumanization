@@ -189,7 +189,7 @@ async def load_channel(client, name, MSG_LIMIT=None):
     now = datetime.now()
     dt_string = now.strftime('%d_%m_%Y_%H_%M_%S')
 
-    upload_blob('tg_scr_bucket', csv_str, 'data-' + dt_string + '.csv')
+    upload_blob('tg_scr_bucket', csv_str, 'data_preselected_for_1st_annotation_proj-' + dt_string + '.csv')
 
 # @functions_framework.http
 def get_channel_data(request):

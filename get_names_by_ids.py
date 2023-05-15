@@ -22,7 +22,7 @@ from utils.utils import init_config
 
 def init_args():
     parser = argparse.ArgumentParser(
-        description="Loads channels data"
+        description="Loads channels data_preselected_for_1st_annotation_proj"
     )
 
     # parser.add_argument(
@@ -47,12 +47,12 @@ def init_args():
         "--ids_list_path",
         type=str,
         help="path to list of channels being loaded",
-        default="/Users/katerynaburovova/PycharmProjects/dehumanization/data/ids_channels_list.json"
+        default="/Users/katerynaburovova/PycharmProjects/dehumanization/data_preselected_for_1st_annotation_proj/ids_channels_list.json"
     )
 
     return parser.parse_args()
 
-def load_channel_ids(ids_list_path="/Users/katerynaburovova/PycharmProjects/dehumanization/data/ids_channels_list.json"):
+def load_channel_ids(ids_list_path="/Users/katerynaburovova/PycharmProjects/dehumanization/data_preselected_for_1st_annotation_proj/ids_channels_list.json"):
 
     with open(ids_list_path, 'r') as openfile:
         ids_list = json.load(openfile)

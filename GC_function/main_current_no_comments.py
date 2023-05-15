@@ -175,7 +175,7 @@ async def load_channel(client, name, MSG_LIMIT=None):
     now = datetime.now()
     dt_string = now.strftime('%d_%m_%Y_%H_%M_%S')
 
-    upload_blob('tg_scr_bucket', csv_str, 'data-' + name + '_' + dt_string + '.csv')
+    upload_blob('tg_scr_bucket', csv_str, 'data_preselected_for_1st_annotation_proj-' + name + '_' + dt_string + '.csv')
 
 # @functions_framework.http
 def get_channel_data(request):
@@ -189,9 +189,9 @@ def get_channel_data(request):
     else:
         channel_name = 'margaritasimonyan'
 
-    api_id = 27051890
-    api_hash = '3a0e430c3d84e890ee7077fc51b96c48'
-    session = '1ApWapzMBu3OrUpeBVN_yEKOXxuLq8O-l3odTXsyl0Hm2_jUTzIWBjT5WSWlFAU7tHBVi5w5qHuRF3fBv3-riXKnxjiI5jKMU9czfx0HhzcDVDkR68uOEXLXuVgB46rpAbau_OmaZ2cwNcjoF8KJkMm_o8Sqz5bTNffgK0dcvalaxBw6rgi_KQrPfahJK1fNcr_u0x9kcQ5nliT89zaQ3XwTZWF-_03zJrmRavfZ-e7DJc6mRtHNUbYu17R3-GrHwkr5HmTgjua_856nvwSH7pc67Ikkye1j_6V0iwOfklhi7k4utVYR-r75kLkVwtmdc8cmbzVQSFN-4UmUrPgauXY0Mv0YFJ8A='
+    api_id = 000000
+    api_hash = '000000000000000000000000'
+    session = '000000000000000000000000000000000000000000'
 
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)

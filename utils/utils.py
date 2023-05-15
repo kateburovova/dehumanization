@@ -11,7 +11,7 @@ def init_config(config_path):
         with open(config_path) as json_file:
             config = json.load(json_file)
 
-    default_data_folder = "../data"
+    default_data_folder = "../data_preselected_for_1st_annotation_proj"
     if config["channel_data_folder"].startswith(default_data_folder) and not os.path.exists(default_data_folder):
         os.mkdir(default_data_folder)
 
