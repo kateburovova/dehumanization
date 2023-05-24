@@ -1,0 +1,2 @@
+SPERT_experimentation/spert/data/save/conll04_train/2023_05_05_14_45_19_041428/final_model/pytorch_model.bin filter=lfs diff=lfs merge=lfs -text
+SPERT_experimentation/spert/data/save/conll04_train/2023_05_05_14_45_19_041428/final_model/vocab.txt filter=lfs diff=lfs merge=lfs -text
