@@ -1,0 +1,2 @@
+ner_prec_micro;ner_rec_micro;ner_f1_micro;ner_prec_macro;ner_rec_macro;ner_f1_macro;rel_prec_micro;rel_rec_micro;rel_f1_micro;rel_prec_macro;rel_rec_macro;rel_f1_macro;rel_nec_prec_micro;rel_nec_rec_micro;rel_nec_f1_micro;rel_nec_prec_macro;rel_nec_rec_macro;rel_nec_f1_macro;epoch;iteration;global_iteration
+92.92682926829269;67.67317939609237;78.31449126413156;96.25942803268384;76.45018322136472;84.96639157946436;0.0;0.0;0.0;nan;nan;nan;0.0;0.0;0.0;nan;nan;nan;20;0;3720
