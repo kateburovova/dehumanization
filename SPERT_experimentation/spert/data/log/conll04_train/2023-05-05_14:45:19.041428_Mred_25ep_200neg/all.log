@@ -1,0 +1,50 @@
+2023-05-05 14:45:19,315 [MainThread  ] [INFO ]  Datasets: data/datasets/dehumanization_spert_reduced_M/conll04_train.json, data/datasets/dehumanization_spert_reduced_M/conll04_dev.json
+2023-05-05 14:45:19,315 [MainThread  ] [INFO ]  Model type: spert
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Relation type count: 1
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Entity type count: 5
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Entities:
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  No Entity=0
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  HIGH_UH_LOW_NH=1
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  LOW_UH_LOW_NH=2
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  LOW_UH_HIGH_NH=3
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  HIGH_UH_HIGH_NH=4
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Relations:
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  No Relation=0
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Dataset: train
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Document count: 372
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Relation count: 0
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Entity count: 371
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Dataset: valid
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Document count: 232
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Relation count: 0
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Entity count: 231
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Updates per epoch: 186
+2023-05-05 14:45:19,680 [MainThread  ] [INFO ]  Updates total: 4650
+2023-05-05 14:45:22,222 [MainThread  ] [INFO ]  Train epoch: 0
+2023-05-05 14:47:50,583 [MainThread  ] [INFO ]  Train epoch: 1
+2023-05-05 14:50:06,924 [MainThread  ] [INFO ]  Train epoch: 2
+2023-05-05 14:52:46,697 [MainThread  ] [INFO ]  Train epoch: 3
+2023-05-05 14:55:20,934 [MainThread  ] [INFO ]  Train epoch: 4
+2023-05-05 14:57:38,972 [MainThread  ] [INFO ]  Train epoch: 5
+2023-05-05 14:59:56,701 [MainThread  ] [INFO ]  Train epoch: 6
+2023-05-05 15:02:29,833 [MainThread  ] [INFO ]  Train epoch: 7
+2023-05-05 15:05:01,612 [MainThread  ] [INFO ]  Train epoch: 8
+2023-05-05 15:07:40,867 [MainThread  ] [INFO ]  Train epoch: 9
+2023-05-05 15:10:24,939 [MainThread  ] [INFO ]  Train epoch: 10
+2023-05-05 15:12:56,600 [MainThread  ] [INFO ]  Train epoch: 11
+2023-05-05 15:15:19,962 [MainThread  ] [INFO ]  Train epoch: 12
+2023-05-05 15:17:25,119 [MainThread  ] [INFO ]  Train epoch: 13
+2023-05-05 15:19:32,579 [MainThread  ] [INFO ]  Train epoch: 14
+2023-05-05 15:21:51,524 [MainThread  ] [INFO ]  Train epoch: 15
+2023-05-05 15:24:16,332 [MainThread  ] [INFO ]  Train epoch: 16
+2023-05-05 15:26:35,624 [MainThread  ] [INFO ]  Train epoch: 17
+2023-05-05 15:28:49,306 [MainThread  ] [INFO ]  Train epoch: 18
+2023-05-05 15:31:04,562 [MainThread  ] [INFO ]  Train epoch: 19
+2023-05-05 15:33:22,333 [MainThread  ] [INFO ]  Train epoch: 20
+2023-05-05 15:35:55,691 [MainThread  ] [INFO ]  Train epoch: 21
+2023-05-05 15:38:22,933 [MainThread  ] [INFO ]  Train epoch: 22
+2023-05-05 15:40:41,192 [MainThread  ] [INFO ]  Train epoch: 23
+2023-05-05 15:42:59,668 [MainThread  ] [INFO ]  Train epoch: 24
+2023-05-05 15:46:06,302 [MainThread  ] [INFO ]  Evaluate: valid
+2023-05-05 15:46:49,479 [MainThread  ] [INFO ]  Logged in: data/log/conll04_train/2023-05-05_14:45:19.041428
+2023-05-05 15:46:49,479 [MainThread  ] [INFO ]  Saved in: data/save/conll04_train/2023-05-05_14:45:19.041428

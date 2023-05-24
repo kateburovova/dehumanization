@@ -1,0 +1,2 @@
+2023-05-05 14:44:45,998 [MainThread  ] [INFO ]  Datasets: data/datasets/dehumanization_spert_reduced_M/conll04_train.json, data/datasets/dehumanization_spert_reduced_M/conll04_dev.json
+2023-05-05 14:44:45,998 [MainThread  ] [INFO ]  Model type: spert
