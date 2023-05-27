@@ -5,7 +5,7 @@ import os
 
 if __name__ == "__main__":
     merged_dataset_path = "/data/Telegram_initial_data/merged_dataset/df_channels.csv"
-    loaded_channels_path = "/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels"
+    loaded_channels_path = "/data/channels"
     channel_data_files = glob.glob(f"{loaded_channels_path}/*.csv")
     # print(channel_data_files)
     df = []

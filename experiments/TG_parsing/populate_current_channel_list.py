@@ -7,7 +7,7 @@ if __name__ == "__main__":
     with open('/data/Telegram_initial_data/channels_list.json', 'r') as openfile:
         data = json.load(openfile)
 
-    loaded_channels_path = "/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels"
+    loaded_channels_path = "/data/channels"
     channel_data_files = glob.glob(f"{loaded_channels_path}/*.csv")
 
     already_loaded_list = []
