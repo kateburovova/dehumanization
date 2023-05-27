@@ -98,7 +98,7 @@ def create_train_sample(doc, neg_entity_count: int, neg_rel_count: int, max_span
 
     # also create samples_masks:
     # tensors to mask entity/relation samples of batch
-    # since samples are stacked into batches, "padding" entities/relations possibly must be created
+    # since samples are stacked into batches_w_lemmas, "padding" entities/relations possibly must be created
     # these are later masked during loss computation
     if entity_masks:
         entity_types = torch.tensor(entity_types, dtype=torch.long)
@@ -164,7 +164,7 @@ def create_eval_sample(doc, max_span_size: int):
         entity_spans = torch.tensor(entity_spans, dtype=torch.long)
 
         # tensors to mask entity samples of batch
-        # since samples are stacked into batches, "padding" entities possibly must be created
+        # since samples are stacked into batches_w_lemmas, "padding" entities possibly must be created
         # these are later masked during evaluation
         entity_sample_masks = torch.tensor([1] * entity_masks.shape[0], dtype=torch.bool)
     else:

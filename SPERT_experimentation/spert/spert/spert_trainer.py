@@ -232,7 +232,7 @@ class SpERTTrainer(BaseTrainer):
         with torch.no_grad():
             model.eval()
 
-            # iterate batches
+            # iterate batches_w_lemmas
             total = math.ceil(dataset.document_count / self._args.eval_batch_size)
             for batch in tqdm(data_loader, total=total, desc='Evaluate epoch %s' % epoch):
                 # move batch to selected device
@@ -271,7 +271,7 @@ class SpERTTrainer(BaseTrainer):
         with torch.no_grad():
             model.eval()
 
-            # iterate batches
+            # iterate batches_w_lemmas
             total = math.ceil(dataset.document_count / self._args.eval_batch_size)
             for batch in tqdm(data_loader, total=total, desc='Predict'):
                 # move batch to selected device

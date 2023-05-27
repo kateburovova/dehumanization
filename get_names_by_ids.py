@@ -82,7 +82,7 @@ async def get_names(client, id):
     dict = {"titles": names}
     json_object = json.dumps(dict, indent=4)
 
-    with open("/Users/katerynaburovova/PycharmProjects/dehumanization/data/names_from_ids_list.json", "a") as outfile:
+    with open("/data/Telegram_initial_data/names_from_ids_list.json", "a") as outfile:
         outfile.write(json_object)
 
 

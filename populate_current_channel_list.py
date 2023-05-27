@@ -4,7 +4,7 @@ import pandas as pd
 import glob
 
 if __name__ == "__main__":
-    with open('/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels_list.json', 'r') as openfile:
+    with open('/data/Telegram_initial_data/channels_list.json', 'r') as openfile:
         data = json.load(openfile)
 
     loaded_channels_path = "/Users/katerynaburovova/PycharmProjects/dehumanization/data/channels"
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     dict2 = {"names": current_list}
     json_object = json.dumps(dict2, indent=4)
 
-    with open("/Users/katerynaburovova/PycharmProjects/dehumanization/data/current_channel_list", "w") as outfile:
+    with open("/data/Telegram_initial_data/current_channel_list", "w") as outfile:
         outfile.write(json_object)
     print(f'Total channels to load: {len(current_list)}, excluded: {already_loaded_list}')
 
